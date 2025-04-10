@@ -25,11 +25,14 @@ class FlightController extends Controller
     // }
 
     public function viewFlightDetails($id)
-    {
-        $flight = Flight::findorFail($id);
-        $title = 'Detail Penerbangan';
-        return view('flightDetail', compact('title', 'flight'));
-    }
+{
+    $flight = Flight::findOrFail($id);
+    $passenger = $flight->tickets;
+    $boarding = $flight->tickets->where('is_boarding', 1);
+    $title = 'Detail Penerbangan';
+
+    return view('flightDetail', compact('title', 'flight', 'passenger', 'boarding'));
+}
 
     /**
      * Store a newly created resource in storage.
