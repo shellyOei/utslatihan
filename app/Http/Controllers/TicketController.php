@@ -37,6 +37,29 @@ class TicketController extends Controller
 
         return response()->json(['message' => 'Flight booked successfully!']);
     }
+
+    public function confirmBoarding($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $ticket->is_boarding = 1;
+        $ticket->boarding_time = now();
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Boarding berhasil dikonfirmasi');
+    }
+
+    public function destroy($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        if ($ticket->is_boarding) {
+            return redirect()->back()->with('error', 'Tidak bisa menghapus tiket yang sudah boarding');
+        }
+
+        $ticket->delete();
+        return redirect()->back()->with('success', 'Tiket berhasil dihapus');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -77,11 +100,5 @@ class TicketController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Ticket $ticket)
-    {
-        //
-    }
+
 }

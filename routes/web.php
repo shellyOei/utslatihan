@@ -9,4 +9,5 @@ Route::get('/flights/ticket{id}', [FlightController::class, 'viewFlightDetails']
 Route::get('/flights/book/{id}', [FlightController::class, 'viewForm'])->name('flight.book');
 Route::post('/flights/{flight}', [TicketController::class, 'store'])->name('ticket.store');
 
-
+Route::put('/ticket/{id}/confirm-boarding', [TicketController::class, 'confirmBoarding'])->name('ticket.confirmBoarding');
+Route::delete('/ticket/{id}', [TicketController::class, 'destroy'])->name('ticket.delete');
